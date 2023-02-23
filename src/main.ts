@@ -1,5 +1,6 @@
 // ** Nest Imports
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 
 // ** Custom Module Imports
 import { AppModule } from './app.module';
@@ -15,6 +16,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.useLogger(app.get(LoggerService));
+  app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   swaggerConfig(app);
   await app.listen(process.env.SERVER_PORT);
