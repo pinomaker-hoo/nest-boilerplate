@@ -6,11 +6,24 @@ import { ConfigModule } from '@nestjs/config';
 import LoggerModule from './util/logger/logger.module';
 import LoggerMiddleware from './util/logger/logger.middleware';
 
+// ** Typeorm Imports
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
+    }),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: ['dist/**/*.entity.js'],
+      synchronize: true,
     }),
     LoggerModule,
   ],
