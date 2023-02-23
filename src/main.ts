@@ -15,6 +15,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.useLogger(app.get(LoggerService));
+  app.enableCors();
   swaggerConfig(app);
   await app.listen(process.env.SERVER_PORT);
 }
