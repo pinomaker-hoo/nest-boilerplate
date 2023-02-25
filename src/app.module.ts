@@ -25,6 +25,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: process.env.DB_DATABASE,
       entities: ['dist/api/**/*.entity.js'],
       synchronize: true,
+      logging: true,
+      logger: 'file',
     }),
     LoggerModule,
     AuthModule,
