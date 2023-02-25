@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 // ** Custom Module Imports
 import LoggerModule from './util/logger/logger.module';
 import LoggerMiddleware from './util/logger/logger.middleware';
+import AuthModule from './api/auth/auth.module';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,11 +22,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       port: +process.env.DB_PORT,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: ['dist/**/*.entity.js'],
+      database: process.env.DB_DATABASE,
+      entities: ['dist/api/**/*.entity.js'],
       synchronize: true,
     }),
     LoggerModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
