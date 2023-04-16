@@ -13,7 +13,7 @@ import RequestUserLoginDto from '../dto/user.login.dto';
 import LocalGuard from '../passport/auth.local.guard';
 import { Role } from 'src/common/roles/roles.decorator';
 import { RolesGuard } from 'src/common/roles/roles.guard';
-import JwtGuard from '../passport/auth.jwt.guard';
+import JwtAccessGuard from '../passport/auth.jwt-access.guard';
 
 // ** Module Imports
 import AuthService from '../service/auth.service';
@@ -78,7 +78,7 @@ export default class AuthController {
   })
   @Role(UserRole.ADMIN)
   @UseGuards(RolesGuard)
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtAccessGuard)
   @Get('/admin')
   async adminTokenTest(@Req() request: RequestPassportJwtDto) {
     return request.user;
@@ -92,7 +92,7 @@ export default class AuthController {
   })
   @Role(UserRole.USER)
   @UseGuards(RolesGuard)
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtAccessGuard)
   @Get('/user')
   async userTokenTest(@Req() request: RequestPassportJwtDto) {
     return request.user;

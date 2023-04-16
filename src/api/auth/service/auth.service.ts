@@ -1,6 +1,7 @@
 // ** Nest Imports
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 // ** enum, dto, entity, types Imports
 import ApiResponse from 'src/common/dto/api.response';
@@ -20,6 +21,7 @@ export default class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async saveUser(dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
@@ -108,9 +110,22 @@ export default class AuthService {
           statusCode: 400,
         });
       }
-      const token = this.jwtService.sign({ id: findUser.id });
+      const accessToken = await this.createAccessToken({
+        id: findUser.id,
+        role: UserRole.ADMIN,
+      });
+
+      const refreshToken = await this.createRefreshToken({
+        id: findUser.id,
+        role: UserRole.ADMIN,
+      });
+
+      await this.userRepository.update(findUser.id, {
+        currentHashedRefreshToken: refreshToken,
+      });
+
       return ApiResponse.of({
-        data: { user: findUser, token },
+        data: { user: findUser, token: { accessToken, refreshToken } },
         message: 'Login Success',
         statusCode: 200,
       });
@@ -145,5 +160,27 @@ export default class AuthService {
         statusCode: 500,
       });
     }
+  }
+
+  public async findRefreshToken(token: string, { id }: JwtPayload) {
+    const findUser = await this.userRepository.findOne({ where: { id } });
+
+    if (findUser.currentHashedRefreshToken === token) {
+      return findUser;
+    }
+  }
+
+  private async createAccessToken(payload: JwtPayload) {
+    return this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
+      expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME'),
+    });
+  }
+
+  private async createRefreshToken(payload: JwtPayload) {
+    return this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
+    });
   }
 }

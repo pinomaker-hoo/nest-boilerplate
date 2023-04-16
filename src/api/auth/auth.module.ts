@@ -9,12 +9,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 // ** Custom Module Imports
 import AuthController from './controller/auth.controller';
-import JwtStrategy from './passport/auth.jwt.strategy';
 import LocalStrategy from './passport/auth.local.strategy';
 import UserRepository from './repository/user.repository';
 import AuthService from './service/auth.service';
 import User from './domain/user.entity';
 import { TypeOrmExModule } from 'src/common/repository/typeOrmEx.module';
+import JwtAccessStrategy from './passport/auth.jwt-access.strategy';
+import JwtRefreshStrategy from './passport/auth.jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -24,13 +25,20 @@ import { TypeOrmExModule } from 'src/common/repository/typeOrmEx.module';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get('JWT_SECRET'),
-        signOptions: { expiresIn: config.get('JWT_EXPIRESIN') },
+        secret: config.get('JWT_ACCESS_TOKEN_SECRET'),
+        signOptions: {
+          expiresIn: config.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME'),
+        },
       }),
     }),
   ],
   exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+  ],
 })
 export default class AuthModule {}
