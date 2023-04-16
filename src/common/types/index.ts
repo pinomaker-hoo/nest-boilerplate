@@ -1,5 +1,8 @@
+import { UserRole } from 'src/api/auth/dto/user.role';
+
 export interface JwtPayload {
   id: number;
-  iat: number;
-  exp: number;
+  role: UserRole;
+  iat?: number;
+  exp?: number;
 }
