@@ -13,12 +13,14 @@ import JwtStrategy from './passport/auth.jwt.strategy';
 import LocalStrategy from './passport/auth.local.strategy';
 import UserRepository from './repository/user.repository';
 import AuthService from './service/auth.service';
+import User from './domain/user.entity';
+import { TypeOrmExModule } from 'src/common/repository/typeOrmEx.module';
 
 @Module({
   imports: [
-    ConfigService,
     PassportModule,
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([User]),
+    TypeOrmExModule.forCustomRepository([UserRepository]),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -27,6 +29,7 @@ import AuthService from './service/auth.service';
       }),
     }),
   ],
+  exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
 })

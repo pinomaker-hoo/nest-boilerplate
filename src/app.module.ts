@@ -9,6 +9,7 @@ import AuthModule from './api/auth/auth.module';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmExModule } from './common/repository/typeOrmEx.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       logging: true,
       logger: 'file',
     }),
+    TypeOrmExModule,
     LoggerModule,
     AuthModule,
   ],

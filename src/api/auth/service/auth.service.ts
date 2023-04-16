@@ -126,7 +126,9 @@ export default class AuthService {
 
   async findUserByJwt(payload: JwtPayload): Promise<any> {
     try {
-      const findUser = await this.userRepository.findOne({ id: payload.id });
+      const findUser = await this.userRepository.findOne({
+        where: { id: payload.id },
+      });
       if (!findUser) {
         return ApiResponse.of({
           data: false,
