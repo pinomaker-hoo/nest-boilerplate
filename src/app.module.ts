@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import LoggerModule from './util/logger/logger.module';
 import LoggerMiddleware from './util/logger/logger.middleware';
 import AuthModule from './api/auth/auth.module';
+import UploadModule from './api/upload/upload.module';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -32,6 +33,7 @@ import { TypeOrmExModule } from './common/repository/typeOrmEx.module';
     TypeOrmExModule,
     LoggerModule,
     AuthModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],
