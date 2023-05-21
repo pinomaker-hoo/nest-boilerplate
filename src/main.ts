@@ -11,6 +11,9 @@ import swaggerConfig from './config/swaggerConfig';
 // ** Logger Config Imports
 import LoggerService from './util/logger/logger.service';
 
+// ** Express Imports
+import * as express from 'express';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
@@ -18,6 +21,7 @@ async function bootstrap() {
   app.useLogger(app.get(LoggerService));
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
+  app.use('/file', express.static('./uploads'));
   swaggerConfig(app);
   await app.listen(process.env.SERVER_PORT);
 }
