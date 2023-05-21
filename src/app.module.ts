@@ -11,6 +11,7 @@ import UploadModule from './api/upload/upload.module';
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from './common/repository/typeOrmEx.module';
+import ViewModule from './api/view/view.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { TypeOrmExModule } from './common/repository/typeOrmEx.module';
     LoggerModule,
     AuthModule,
     UploadModule,
+    ViewModule,
   ],
   controllers: [],
   providers: [],
