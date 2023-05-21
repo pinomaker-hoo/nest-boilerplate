@@ -12,6 +12,7 @@ import UploadModule from './api/upload/upload.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from './common/repository/typeOrmEx.module';
 import ViewModule from './api/view/view.module';
+import AdapterModule from './api/adapter/adapter.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import ViewModule from './api/view/view.module';
     AuthModule,
     UploadModule,
     ViewModule,
+    AdapterModule,
   ],
   controllers: [],
   providers: [],
