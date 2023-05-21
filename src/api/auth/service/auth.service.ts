@@ -9,6 +9,7 @@ import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
 import { JwtPayload } from 'src/common/types';
 import { UserRole } from '../dto/user.role';
+import { BadRequestException } from 'src/common/exception/customException';
 
 // ** Custom Module Imports
 import UserRepository from '../repository/user.repository';
@@ -24,142 +25,89 @@ export default class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async saveUser(dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
-    try {
-      const findUser = await this.userRepository.findOne({
-        where: { email: dto.email },
-      });
-      if (findUser) {
-        return ApiResponse.of({
-          data: false,
-          message: 'Already exist email',
-          statusCode: 400,
-        });
-      }
-      const hash = await bcrypt.hash(dto.password, 10);
-      const saveUser = this.userRepository.create({
-        email: dto.email,
-        password: hash,
-        role: UserRole.USER,
-      });
-      return ApiResponse.of({
-        data: await this.userRepository.save(saveUser),
-        message: 'Success Save User',
-        statusCode: 200,
-      });
-    } catch (err) {
-      console.log('ERROR : ', err);
-      return ApiResponse.of({
-        data: false,
-        message: 'SERVER WRONG',
-        statusCode: 500,
-      });
+  public async saveUser(dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
+    const findUser = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
+
+    if (findUser) {
+      throw new BadRequestException('Not Found User');
     }
+
+    const hash = await bcrypt.hash(dto.password, 10);
+    const saveUser = this.userRepository.create({
+      email: dto.email,
+      password: hash,
+      role: UserRole.USER,
+    });
+
+    return ApiResponse.of({
+      data: await this.userRepository.save(saveUser),
+      message: 'Success Save User',
+      statusCode: 200,
+    });
   }
 
   async saveAdmin(dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
-    try {
-      const findUser = await this.userRepository.findOne({
-        where: { email: dto.email },
-      });
-      if (findUser) {
-        return ApiResponse.of({
-          data: false,
-          message: 'Already exist email',
-          statusCode: 400,
-        });
-      }
-      const hash = await bcrypt.hash(dto.password, 10);
-      const saveUser = this.userRepository.create({
-        email: dto.email,
-        password: hash,
-        role: UserRole.ADMIN,
-      });
-      return ApiResponse.of({
-        data: await this.userRepository.save(saveUser),
-        message: 'Success Save User',
-        statusCode: 200,
-      });
-    } catch (err) {
-      console.log('ERROR : ', err);
-      return ApiResponse.of({
-        data: false,
-        message: 'SERVER WRONG',
-        statusCode: 500,
-      });
+    const findUser = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
+    if (findUser) {
+      throw new BadRequestException('Exist Username');
     }
+    const hash = await bcrypt.hash(dto.password, 10);
+    const saveUser = this.userRepository.create({
+      email: dto.email,
+      password: hash,
+      role: UserRole.ADMIN,
+    });
+    return ApiResponse.of({
+      data: await this.userRepository.save(saveUser),
+      message: 'Success Save User',
+      statusCode: 200,
+    });
   }
 
   async localLogin(dto: RequestUserLoginDto): Promise<ApiResponse<any>> {
-    try {
-      const findUser = await this.userRepository.findOne({
-        where: { email: dto.email },
-      });
-      if (!findUser) {
-        return ApiResponse.of({
-          data: false,
-          message: 'Not Found Email',
-          statusCode: 400,
-        });
-      }
-      const result = await bcrypt.compare(dto.password, findUser.password);
-      if (!result) {
-        return ApiResponse.of({
-          data: false,
-          message: 'Not Found Password',
-          statusCode: 400,
-        });
-      }
-      const accessToken = await this.createAccessToken({
-        id: findUser.id,
-        role: UserRole.ADMIN,
-      });
-
-      const refreshToken = await this.createRefreshToken({
-        id: findUser.id,
-        role: UserRole.ADMIN,
-      });
-
-      await this.userRepository.update(findUser.id, {
-        currentHashedRefreshToken: refreshToken,
-      });
-
-      return ApiResponse.of({
-        data: { user: findUser, token: { accessToken, refreshToken } },
-        message: 'Login Success',
-        statusCode: 200,
-      });
-    } catch (err) {
-      console.log(err);
-      return ApiResponse.of({
-        data: false,
-        message: 'SERVER WRONG',
-        statusCode: 500,
-      });
+    const findUser = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
+    if (!findUser) {
+      throw new BadRequestException('Not Found Email');
     }
+    const result = await bcrypt.compare(dto.password, findUser.password);
+    if (!result) {
+      throw new BadRequestException('Wrong Password');
+    }
+    const accessToken = await this.createAccessToken({
+      id: findUser.id,
+      role: UserRole.ADMIN,
+    });
+
+    const refreshToken = await this.createRefreshToken({
+      id: findUser.id,
+      role: UserRole.ADMIN,
+    });
+
+    await this.userRepository.update(findUser.id, {
+      currentHashedRefreshToken: refreshToken,
+    });
+
+    return ApiResponse.of({
+      data: { user: findUser, token: { accessToken, refreshToken } },
+      message: 'Login Success',
+      statusCode: 200,
+    });
   }
 
   async findUserByJwt(payload: JwtPayload): Promise<any> {
-    try {
-      const findUser = await this.userRepository.findOne({
-        where: { id: payload.id },
-      });
-      if (!findUser) {
-        return ApiResponse.of({
-          data: false,
-          message: 'Not Found User(Token)',
-          statusCode: 400,
-        });
-      }
-      return findUser;
-    } catch (err) {
-      console.log(err);
-      return ApiResponse.of({
-        data: false,
-        message: 'SERVER WRONG',
-        statusCode: 500,
-      });
+    const findUser = await this.userRepository.findOne({
+      where: { id: payload.id },
+    });
+    if (!findUser) {
+      throw new BadRequestException('Not Found User By Token');
     }
+    return findUser;
   }
 
   public async findRefreshToken(token: string, { id }: JwtPayload) {
