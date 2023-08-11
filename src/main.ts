@@ -15,7 +15,7 @@ import LoggerService from './util/logger/logger.service';
 // ** Express Imports
 import * as express from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { AllExceptionsFilter } from './common/filter/ExceptionFilter';
+import { AllExceptionsFilter } from './filter/ExceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

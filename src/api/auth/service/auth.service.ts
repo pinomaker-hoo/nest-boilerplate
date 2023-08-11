@@ -9,7 +9,7 @@ import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
 import { JwtPayload } from 'src/common/types';
 import { UserRole } from '../dto/user.role';
-import { BadRequestException } from 'src/common/exception/customException';
+import { BadRequestException } from 'src/exception/customException';
 
 // ** Custom Module Imports
 import UserRepository from '../repository/user.repository';
