@@ -4,7 +4,7 @@ import { HttpStatus } from '@nestjs/common';
 // ** Swagger Imports
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class ApiResponse<T> {
+export default class CommonResponse<T> {
   private constructor(payload: {
     readonly data?: T;
     readonly statusCode: number;
@@ -26,10 +26,17 @@ export default class ApiResponse<T> {
     readonly data?: T;
     readonly statusCode?: number;
     readonly message?: string;
-  }): ApiResponse<T> {
-    return new ApiResponse<T>({
-      data: payload.data ?? null,
-      statusCode: payload.statusCode ?? HttpStatus.OK,
+  }): CommonResponse<T> {
+    if (payload.data) {
+      return new CommonResponse<T>({
+        data: payload.data ?? null,
+        statusCode: payload.statusCode ?? 200,
+        message: payload.message ?? '',
+      });
+    }
+
+    return new CommonResponse<T>({
+      statusCode: payload.statusCode ?? 200,
       message: payload.message ?? '',
     });
   }
