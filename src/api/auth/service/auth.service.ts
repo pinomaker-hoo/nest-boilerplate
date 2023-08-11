@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import ApiResponse from 'src/common/dto/api.response';
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
-import { JwtPayload } from 'src/common/types';
+import { JwtPayload } from 'src/types';
 import { UserRole } from '../dto/user.role';
 import { BadRequestException } from 'src/exception/customException';
 

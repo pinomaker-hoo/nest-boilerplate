@@ -7,7 +7,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 // ** Dto, Type, enum Import
-import { JwtPayload } from 'src/common/types';
+import { JwtPayload } from 'src/types';
 
 // ** Custom Module Imports
 import AuthService from '../service/auth.service';

@@ -11,8 +11,8 @@ import RequestUserLoginDto from '../dto/user.login.dto';
 
 // ** Guard Imports
 import LocalGuard from '../passport/auth.local.guard';
-import { Role } from 'src/common/roles/roles.decorator';
-import { RolesGuard } from 'src/common/roles/roles.guard';
+import { Role } from 'src/roles/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 import JwtAccessGuard from '../passport/auth.jwt-access.guard';
 
 // ** Module Imports
