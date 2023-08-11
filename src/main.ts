@@ -15,12 +15,14 @@ import LoggerService from './util/logger/logger.service';
 // ** Express Imports
 import * as express from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { AllExceptionsFilter } from './common/filter/ExceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   });
   app.useLogger(app.get(LoggerService));
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   app.use('/file', express.static('./uploads'));
