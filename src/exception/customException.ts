@@ -1,18 +1,22 @@
 import {
-  HttpException,
-  HttpStatus,
-  BadRequestException as BadException,
-  NotFoundException,
+  BadRequestException as BadRequest,
+  NotFoundException as NotFound,
 } from '@nestjs/common';
 
-export class BadRequestException extends NotFoundException {
+export class NotFoundException extends NotFound {
   constructor(message: string) {
     super(message);
   }
 }
 
-export class InternalServerErrorException extends HttpException {
+export class BadRequestException extends BadRequest {
   constructor(message: string) {
-    super(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    super(message);
+  }
+}
+
+export class InternalServerErrorException extends Error {
+  constructor(message: string) {
+    super(message);
   }
 }
