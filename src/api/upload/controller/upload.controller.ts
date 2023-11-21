@@ -9,16 +9,26 @@ import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 // ** Swagger Imports
-import { ApiOperation, ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiTags,
+  ApiConsumes,
+  ApiBody,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 // ** Other Imports
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import CommonResponse from '../../../common/dto/common.response';
 
+// ** Response Imports
+import { createServerExceptionResponse } from '../../../response/common';
+
 // ** enum, dto, entity Imports
 
 @ApiTags('upload')
+@ApiResponse(createServerExceptionResponse())
 @Controller({ path: '/file', version: '1' })
 export default class UploadController {
   constructor(private readonly configService: ConfigService) {}

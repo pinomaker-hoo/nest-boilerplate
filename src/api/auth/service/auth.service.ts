@@ -32,7 +32,7 @@ export default class AuthService {
     });
 
     if (findUser) {
-      throw new BadRequestException('Not Found User');
+      throw new BadRequestException('이미 회원가입한 유저 입니다.');
     }
 
     const hash = await bcrypt.hash(dto.password, 10);
@@ -46,7 +46,7 @@ export default class AuthService {
 
     return CommonResponse.createResponseMessage({
       statusCode: 200,
-      message: 'Success Save User',
+      message: '회원가입 되었습니다.',
     });
   }
 
@@ -58,7 +58,7 @@ export default class AuthService {
     });
 
     if (findUser) {
-      throw new BadRequestException('Exist Username');
+      throw new BadRequestException('이미 회원가입한 유저 입니다.');
     }
 
     const hash = await bcrypt.hash(dto.password, 10);
@@ -73,7 +73,7 @@ export default class AuthService {
 
     return CommonResponse.createResponseMessage({
       statusCode: 200,
-      message: 'Success Save User',
+      message: '관리자 회원가입이 성공했습니다.',
     });
   }
 
@@ -85,13 +85,13 @@ export default class AuthService {
     });
 
     if (!findUser) {
-      throw new BadRequestException('Not Found Email');
+      throw new BadRequestException('유저를 찾을 수 없습니다.');
     }
 
     const result = await bcrypt.compare(dto.password, findUser.password);
 
     if (!result) {
-      throw new BadRequestException('Wrong Password');
+      throw new BadRequestException('비밀번호가 맞지 않습니다.');
     }
 
     const token = this.generateToken({
@@ -101,7 +101,7 @@ export default class AuthService {
 
     return CommonResponse.createResponse({
       data: { user: findUser, token },
-      message: 'Login Success',
+      message: '로그인에 성공했습니다.',
       statusCode: 200,
     });
   }

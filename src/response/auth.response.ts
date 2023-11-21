@@ -1,70 +1,28 @@
-import { createErrorResponse, createResponse } from './common';
+import {
+  createErrorResponse,
+  createMessageResponse,
+  createResponse,
+} from './common';
 
 export const AuthResponse = {
-  saveSocialUser: {
+  localLogin: {
     200: createResponse({
       data: {
+        user: {
+          createdAt: '2023-11-20T22:16:23.574Z',
+          updatedAt: '2023-11-20T22:16:23.574Z',
+          deletedAt: null,
+          id: 2,
+          username: 'string1',
+          password:
+            '$2a$10$B6NbOJ/8qfbJUNyKzoCT5.eckwiJe8nfoGk8ZUndnuYQiS3pqimgi',
+          role: 'USER',
+        },
         token: {
           accessToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTU2NjQwMzZ9.HBA68et_DGrV4wOuZzDx0b5IB9QMxIMTz9ydcIzD-pY',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MDA1NTA5OTMsImV4cCI6MTcwMDU1NDU5M30.0VWZoF-nl_XK0k12vpMS47F-SFK7HKmHqVgotpPBczU',
           refreshToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTYyNjUyMzZ9.mDrmKQNp7f8e-hztcF13bJSWr9Q8JbnzjI6vYOG84BA',
-        },
-        user: {
-          nickname: '피노피노얍',
-          profile:
-            'https://firebasestorage.googleapis.com/v0/b/dice-dev-a5b63.appspot.com/o/images%2F%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png?alt=media&token=da1aeee5-3cd9-4be1-a99c-80d80bee3f7c',
-          email: 'inhoo987654321@gmail.com',
-        },
-      },
-      statusCode: 200,
-      message: '로그인에 성공했습니다.',
-    }),
-    400: createErrorResponse({
-      statusCode: 400,
-      message: '이미 회원가입한 유저 입니다.',
-      error: 'BAD REQUEST',
-    }),
-  },
-  loginSocialUser: {
-    200: createResponse({
-      data: {
-        token: {
-          accessToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTU2NjQwMzZ9.HBA68et_DGrV4wOuZzDx0b5IB9QMxIMTz9ydcIzD-pY',
-          refreshToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTYyNjUyMzZ9.mDrmKQNp7f8e-hztcF13bJSWr9Q8JbnzjI6vYOG84BA',
-        },
-        user: {
-          nickname: '피노피노얍',
-          profile:
-            'https://firebasestorage.googleapis.com/v0/b/dice-dev-a5b63.appspot.com/o/images%2F%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png?alt=media&token=da1aeee5-3cd9-4be1-a99c-80d80bee3f7c',
-          email: 'inhoo987654321@gmail.com',
-        },
-      },
-      statusCode: 200,
-      message: '로그인에 성공했습니다.',
-    }),
-    404: createErrorResponse({
-      statusCode: 404,
-      message: '유저를 찾을 수 없습니다.',
-      error: 'NOT FOUND',
-    }),
-  },
-  loginDiceUser: {
-    200: createResponse({
-      data: {
-        token: {
-          accessToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTU2NjQwMzZ9.HBA68et_DGrV4wOuZzDx0b5IB9QMxIMTz9ydcIzD-pY',
-          refreshToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTYyNjUyMzZ9.mDrmKQNp7f8e-hztcF13bJSWr9Q8JbnzjI6vYOG84BA',
-        },
-        user: {
-          nickname: '피노피노얍',
-          profile:
-            'https://firebasestorage.googleapis.com/v0/b/dice-dev-a5b63.appspot.com/o/images%2F%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png?alt=media&token=da1aeee5-3cd9-4be1-a99c-80d80bee3f7c',
-          email: 'inhoo987654321@gmail.com',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MDA1NTA5OTMsImV4cCI6MTcwMTE1NTc5M30.EVk1t3Yb7KrTU501ke3VqTV6VKwznwKRa7Y31QJ74Y0',
         },
       },
       statusCode: 200,
@@ -81,24 +39,10 @@ export const AuthResponse = {
       error: 'NOT FOUND',
     }),
   },
-  saveDiceUser: {
-    200: createResponse({
-      data: {
-        token: {
-          accessToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTU2NjQwMzZ9.HBA68et_DGrV4wOuZzDx0b5IB9QMxIMTz9ydcIzD-pY',
-          refreshToken:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NjYwNDM2LCJleHAiOjE2OTYyNjUyMzZ9.mDrmKQNp7f8e-hztcF13bJSWr9Q8JbnzjI6vYOG84BA',
-        },
-        user: {
-          nickname: '피노피노얍',
-          profile:
-            'https://firebasestorage.googleapis.com/v0/b/dice-dev-a5b63.appspot.com/o/images%2F%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9.png?alt=media&token=da1aeee5-3cd9-4be1-a99c-80d80bee3f7c',
-          email: 'inhoo987654321@gmail.com',
-        },
-      },
+  saveUser: {
+    200: createMessageResponse({
       statusCode: 200,
-      message: '로그인에 성공했습니다.',
+      message: '회원가입 되었습니다.',
     }),
     400: createErrorResponse({
       statusCode: 400,
@@ -106,14 +50,15 @@ export const AuthResponse = {
       error: 'BAD REQUEST',
     }),
   },
-  reissueToken: {
-    200: createResponse({
-      data: {
-        accessToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NTcxMjM2LCJleHAiOjE2OTU1NzQ4MzZ9.IAu_paMVmVSrPtNPfi4lNTUw9kIHBWEo8If9WbCxcBY',
-      },
+  saveAdmin: {
+    200: createMessageResponse({
       statusCode: 200,
-      message: '토큰을 재발급합니다.',
+      message: '관리자 회원가입이 성공했습니다.',
+    }),
+    400: createErrorResponse({
+      statusCode: 400,
+      message: '이미 회원가입한 유저 입니다.',
+      error: 'BAD REQUEST',
     }),
   },
 };

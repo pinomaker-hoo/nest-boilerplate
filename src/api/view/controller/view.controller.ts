@@ -2,9 +2,13 @@
 import { Controller, Get, Render } from '@nestjs/common';
 
 // ** Swagger Imports
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+
+// ** Response Imports
+import { createServerExceptionResponse } from '../../../response/common';
 
 @ApiTags('View')
+@ApiResponse(createServerExceptionResponse())
 @Controller({ path: '/view', version: '1' })
 export default class ViewController {
   constructor() {}
