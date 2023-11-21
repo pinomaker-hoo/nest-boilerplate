@@ -17,6 +17,9 @@ import * as express from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AllExceptionsFilter } from './filter/ExceptionFilter';
 
+// ** Interceptor Imports
+import { LoggingInterceptor } from './interceptor/LoggingInterceptor';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
@@ -24,6 +27,10 @@ async function bootstrap() {
 
   // ** Logger
   app.useLogger(app.get(LoggerService));
+
+  // ** Interceptor
+  app.useGlobalInterceptors(new LoggingInterceptor());
+
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
