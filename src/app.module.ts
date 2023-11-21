@@ -1,18 +1,17 @@
 // ** Nest Imports
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 // ** Custom Module Imports
-import LoggerModule from './util/logger/logger.module';
-import LoggerMiddleware from './util/logger/logger.middleware';
 import AuthModule from './api/auth/auth.module';
 import UploadModule from './api/upload/upload.module';
+import ViewModule from './api/view/view.module';
+import AdapterModule from './api/adapter/adapter.module';
+import LoggerService from './util/logger/logger.service';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from './repository/typeorm-ex.module';
-import ViewModule from './api/view/view.module';
-import AdapterModule from './api/adapter/adapter.module';
 
 @Module({
   imports: [
@@ -33,17 +32,12 @@ import AdapterModule from './api/adapter/adapter.module';
       logger: 'file',
     }),
     TypeOrmExModule,
-    LoggerModule,
     AuthModule,
     UploadModule,
     ViewModule,
     AdapterModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [LoggerService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}
