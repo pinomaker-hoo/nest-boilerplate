@@ -1,4 +1,4 @@
-import { UserRole } from 'src/api/auth/dto/user.role';
+import { UserRole } from '../common/enum/user.role';
 
 export interface JwtPayload {
   id: number;

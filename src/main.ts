@@ -7,7 +7,7 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 
 // ** Swagger Config Imports
-import swaggerConfig from './config/swaggerConfig';
+import swaggerConfig from './config/swagger/swaggerConfig';
 
 // ** Logger Config Imports
 import LoggerService from './util/logger/logger.service';

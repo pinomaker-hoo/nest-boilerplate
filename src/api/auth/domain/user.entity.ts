@@ -3,31 +3,35 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 // ** enum, dto, entity Imports
 import BaseTimeEntity from '../../../common/entity/BaseTime.Entity';
-import { UserRole } from '../dto/user.role';
-import { Exclude } from 'class-transformer';
+import { UserRole } from '../../../common/enum/user.role';
 
-@Entity({ name: 'tbl_user' })
-@Unique(['email'])
+@Entity({ name: 'TB_USER' })
+@Unique(['username'])
 export default class User extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 100 })
-  email: string;
+  @Column({
+    type: 'varchar',
+    length: 100,
+    nullable: false,
+    comment: '유저네임',
+  })
+  username: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({
+    type: 'varchar',
+    length: 120,
+    nullable: false,
+    comment: '비밀번호',
+  })
   password: string;
 
-  @Column({ nullable: true })
-  @Exclude()
-  currentHashedRefreshToken?: string;
-
-  @Column({ type: 'enum', enum: UserRole })
-  private _role: UserRole;
-  public get role(): UserRole {
-    return this._role;
-  }
-  public set role(value: UserRole) {
-    this._role = value;
-  }
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    nullable: false,
+    comment: '유저 역할',
+  })
+  role: UserRole;
 }

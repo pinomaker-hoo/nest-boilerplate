@@ -7,7 +7,7 @@ import { IsString } from 'class-validator';
 export default class RequestUserSaveDto {
   @ApiProperty()
   @IsString()
-  email: string;
+  username: string;
 
   @ApiProperty()
   @IsString()

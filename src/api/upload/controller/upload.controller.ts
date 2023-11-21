@@ -14,9 +14,9 @@ import { ApiOperation, ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
 // ** Other Imports
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import CommonResponse from '../../../common/dto/common.response';
 
 // ** enum, dto, entity Imports
-import ApiResponse from '../../../common/dto/api.response';
 
 @ApiTags('upload')
 @Controller('/api/upload')
@@ -45,7 +45,7 @@ export default class UploadController {
     }),
   )
   async uploadFile(@UploadedFile() file) {
-    return ApiResponse.of({
+    return CommonResponse.createResponse({
       data: {
         filename: file.filename,
         filepath: `${this.configService.get('SERVER_URL')}/file/${

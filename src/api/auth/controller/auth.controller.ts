@@ -1,30 +1,16 @@
 // ** Nest Imports
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 
 // ** enum, dto, entity Imports
-import ApiResponse from '../../../common/dto/api.response';
-import RequestPassportJwtDto from '../dto/user.passport.jwt.user.dto';
-import RequestPassportDto from '../dto/user.passport.user.dto';
-import { UserRole } from '../dto/user.role';
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
-
-// ** Guard Imports
-import LocalGuard from '../passport/auth.local.guard';
-import { Role } from '../../../roles/roles.decorator';
-import { RolesGuard } from '../../../roles/roles.guard';
-import JwtAccessGuard from '../passport/auth.jwt-access.guard';
+import CommonResponse from '../../../common/dto/common.response';
 
 // ** Module Imports
 import AuthService from '../service/auth.service';
 
 // ** Swagger Imports
-import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -34,42 +20,27 @@ export default class AuthController {
   @ApiOperation({ summary: '유저 회원가입' })
   @ApiBody({ type: RequestUserSaveDto })
   @Post()
-  async saveUser(@Body() dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
+  async saveUser(
+    @Body() dto: RequestUserSaveDto,
+  ): Promise<CommonResponse<any>> {
     return this.authService.saveUser(dto);
   }
 
   @ApiOperation({ summary: '관리자 회원가입' })
   @ApiBody({ type: RequestUserSaveDto })
   @Post('/admin')
-  async saveAdmin(@Body() dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
+  async saveAdmin(
+    @Body() dto: RequestUserSaveDto,
+  ): Promise<CommonResponse<any>> {
     return this.authService.saveAdmin(dto);
   }
 
   @ApiOperation({ summary: '로그인' })
   @ApiBody({ type: RequestUserLoginDto })
-  @UseGuards(LocalGuard)
   @Post('/local')
   async localLogin(
-    @Req() request: RequestPassportDto,
-  ): Promise<ApiResponse<any>> {
-    return request.user;
-  }
-
-  @ApiOperation({ summary: '관리자 토큰 권한 테스트' })
-  @Role(UserRole.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(JwtAccessGuard)
-  @Get('/admin')
-  async adminTokenTest(@Req() request: RequestPassportJwtDto) {
-    return request.user;
-  }
-
-  @ApiOperation({ summary: '유저 토큰 권한 테스트' })
-  @Role(UserRole.USER)
-  @UseGuards(RolesGuard)
-  @UseGuards(JwtAccessGuard)
-  @Get('/user')
-  async userTokenTest(@Req() request: RequestPassportJwtDto) {
-    return request.user;
+    @Body() dto: RequestUserLoginDto,
+  ): Promise<CommonResponse<any>> {
+    return await this.authService.localLogin(dto);
   }
 }

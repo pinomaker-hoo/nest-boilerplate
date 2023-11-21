@@ -4,11 +4,11 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 // ** enum, dto, entity, types Imports
-import ApiResponse from '../../../common/dto/api.response';
+
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
 import { JwtPayload } from '../../../types';
-import { UserRole } from '../dto/user.role';
+import { UserRole } from '../../../common/enum/user.role';
 import { BadRequestException } from '../../../exception/customException';
 
 // ** Custom Module Imports
@@ -16,6 +16,7 @@ import UserRepository from '../repository/user.repository';
 
 // Other Imports
 import * as bcrypt from 'bcryptjs';
+import CommonResponse from '../../../common/dto/common.response';
 
 @Injectable()
 export default class AuthService {
@@ -25,9 +26,9 @@ export default class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async saveUser(dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
+  public async saveUser(dto: RequestUserSaveDto): Promise<CommonResponse<any>> {
     const findUser = await this.userRepository.findOne({
-      where: { email: dto.email },
+      where: { username: dto.username },
     });
 
     if (findUser) {
@@ -35,72 +36,77 @@ export default class AuthService {
     }
 
     const hash = await bcrypt.hash(dto.password, 10);
-    const saveUser = this.userRepository.create({
-      email: dto.email,
-      password: hash,
-      role: UserRole.USER,
-    });
+    await this.userRepository.save(
+      this.userRepository.create({
+        username: dto.username,
+        password: hash,
+        role: UserRole.USER,
+      }),
+    );
 
-    return ApiResponse.of({
-      data: await this.userRepository.save(saveUser),
-      message: 'Success Save User',
+    return CommonResponse.createResponseMessage({
       statusCode: 200,
+      message: 'Success Save User',
     });
   }
 
-  async saveAdmin(dto: RequestUserSaveDto): Promise<ApiResponse<any>> {
+  public async saveAdmin(
+    dto: RequestUserSaveDto,
+  ): Promise<CommonResponse<any>> {
     const findUser = await this.userRepository.findOne({
-      where: { email: dto.email },
+      where: { username: dto.username },
     });
+
     if (findUser) {
       throw new BadRequestException('Exist Username');
     }
+
     const hash = await bcrypt.hash(dto.password, 10);
-    const saveUser = this.userRepository.create({
-      email: dto.email,
-      password: hash,
-      role: UserRole.ADMIN,
-    });
-    return ApiResponse.of({
-      data: await this.userRepository.save(saveUser),
-      message: 'Success Save User',
+
+    await this.userRepository.save(
+      this.userRepository.create({
+        username: dto.username,
+        password: hash,
+        role: UserRole.ADMIN,
+      }),
+    );
+
+    return CommonResponse.createResponseMessage({
       statusCode: 200,
+      message: 'Success Save User',
     });
   }
 
-  async localLogin(dto: RequestUserLoginDto): Promise<ApiResponse<any>> {
+  public async localLogin(
+    dto: RequestUserLoginDto,
+  ): Promise<CommonResponse<any>> {
     const findUser = await this.userRepository.findOne({
-      where: { email: dto.email },
+      where: { username: dto.username },
     });
+
     if (!findUser) {
       throw new BadRequestException('Not Found Email');
     }
+
     const result = await bcrypt.compare(dto.password, findUser.password);
+
     if (!result) {
       throw new BadRequestException('Wrong Password');
     }
-    const accessToken = await this.createAccessToken({
+
+    const token = this.generateToken({
       id: findUser.id,
-      role: UserRole.ADMIN,
+      role: findUser.role,
     });
 
-    const refreshToken = await this.createRefreshToken({
-      id: findUser.id,
-      role: UserRole.ADMIN,
-    });
-
-    await this.userRepository.update(findUser.id, {
-      currentHashedRefreshToken: refreshToken,
-    });
-
-    return ApiResponse.of({
-      data: { user: findUser, token: { accessToken, refreshToken } },
+    return CommonResponse.createResponse({
+      data: { user: findUser, token },
       message: 'Login Success',
       statusCode: 200,
     });
   }
 
-  async findUserByJwt(payload: JwtPayload): Promise<any> {
+  public async findUserByJwt(payload: JwtPayload): Promise<any> {
     const findUser = await this.userRepository.findOne({
       where: { id: payload.id },
     });
@@ -109,26 +115,23 @@ export default class AuthService {
     }
     return findUser;
   }
-
-  public async findRefreshToken(token: string, { id }: JwtPayload) {
-    const findUser = await this.userRepository.findOne({ where: { id } });
-
-    if (findUser.currentHashedRefreshToken === token) {
-      return findUser;
-    }
+  public async findRefreshToken({ id }: JwtPayload) {
+    return await this.userRepository.findOne({ where: { id } });
   }
 
-  private async createAccessToken(payload: JwtPayload) {
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
-      expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME'),
-    });
-  }
-
-  private async createRefreshToken(payload: JwtPayload) {
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
-      expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
-    });
+  public generateToken(payload: JwtPayload): {
+    accessToken: string;
+    refreshToken: string;
+  } {
+    return {
+      accessToken: this.jwtService.sign(payload, {
+        secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
+        expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME'),
+      }),
+      refreshToken: this.jwtService.sign(payload, {
+        secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
+        expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
+      }),
+    };
   }
 }
