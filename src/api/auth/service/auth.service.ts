@@ -4,12 +4,12 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 // ** enum, dto, entity, types Imports
-import ApiResponse from 'src/common/dto/api.response';
+import ApiResponse from '../../../common/dto/api.response';
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
-import { JwtPayload } from 'src/types';
+import { JwtPayload } from '../../../types';
 import { UserRole } from '../dto/user.role';
-import { BadRequestException } from 'src/exception/customException';
+import { BadRequestException } from '../../../exception/customException';
 
 // ** Custom Module Imports
 import UserRepository from '../repository/user.repository';

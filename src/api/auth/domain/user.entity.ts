@@ -2,7 +2,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 // ** enum, dto, entity Imports
-import BaseTimeEntity from 'src/common/entity/BaseTime.Entity';
+import BaseTimeEntity from '../../../common/entity/BaseTime.Entity';
 import { UserRole } from '../dto/user.role';
 import { Exclude } from 'class-transformer';
 

@@ -18,7 +18,7 @@ import AdapterModule from './api/adapter/adapter.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
+      envFilePath: [`.env.${process.env.NODE_ENV}`],
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',

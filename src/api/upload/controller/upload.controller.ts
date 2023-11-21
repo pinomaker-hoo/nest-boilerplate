@@ -16,7 +16,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 
 // ** enum, dto, entity Imports
-import ApiResponse from 'src/common/dto/api.response';
+import ApiResponse from '../../../common/dto/api.response';
 
 @ApiTags('upload')
 @Controller('/api/upload')

@@ -6,7 +6,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 
 // ** enum, dto, entity Imports
-import ApiResponse from 'src/common/dto/api.response';
+import ApiResponse from '../../../common/dto/api.response';
 
 // ** Custom Module Imports
 import AuthService from '../service/auth.service';
