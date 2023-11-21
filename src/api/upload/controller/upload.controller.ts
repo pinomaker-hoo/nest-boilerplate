@@ -19,7 +19,7 @@ import CommonResponse from '../../../common/dto/common.response';
 // ** enum, dto, entity Imports
 
 @ApiTags('upload')
-@Controller('/api/upload')
+@Controller({ path: '/file', version: '1' })
 export default class UploadController {
   constructor(private readonly configService: ConfigService) {}
 

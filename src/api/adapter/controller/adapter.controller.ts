@@ -8,7 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 import AdapterService from '../service/adapter.service';
 
 @ApiTags('Adapter')
-@Controller('/api/adapter')
+@Controller({ path: '/adapter', version: '1' })
 export default class AdapterController {
   constructor(private readonly adapterService: AdapterService) {}
 }

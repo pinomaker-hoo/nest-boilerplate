@@ -1,5 +1,5 @@
 // ** Nest Imports
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 
 // ** enum, dto, entity Imports
 import RequestUserSaveDto from '../dto/user.save.dto';
@@ -13,7 +13,7 @@ import AuthService from '../service/auth.service';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller({ path: '/auth', version: '1' })
 export default class AuthController {
   constructor(private readonly authService: AuthService) {}
 

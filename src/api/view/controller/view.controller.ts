@@ -5,7 +5,7 @@ import { Controller, Get, Render } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('View')
-@Controller('/view')
+@Controller({ path: '/view', version: '1' })
 export default class ViewController {
   constructor() {}
 

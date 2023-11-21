@@ -1,6 +1,6 @@
 // ** Nest Imports
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { join } from 'path';
 
 // ** Custom Module Imports
@@ -29,6 +29,15 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
     snapshot: true,
+  });
+
+  // ** Base URL
+  app.setGlobalPrefix('api');
+
+  // ** Nest Version
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
   });
 
   // ** Logger
