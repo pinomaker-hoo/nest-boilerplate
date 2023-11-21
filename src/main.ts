@@ -15,7 +15,7 @@ import LoggerService from './util/logger/logger.service';
 // ** Express Imports
 import * as express from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { AllExceptionsFilter } from './filter/ExceptionFilter';
+import { CustomExceptionFilter } from './filter/CustomExceptionFilter';
 
 // ** Interceptor Imports
 import { LoggingInterceptor } from './interceptor/LoggingInterceptor';
@@ -31,7 +31,8 @@ async function bootstrap() {
   // ** Interceptor
   app.useGlobalInterceptors(new LoggingInterceptor());
 
-  app.useGlobalFilters(new AllExceptionsFilter());
+  // ** Filter
+  app.useGlobalFilters(new CustomExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   app.use('/file', express.static('./uploads'));
