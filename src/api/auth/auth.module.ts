@@ -13,7 +13,7 @@ import LocalStrategy from './passport/auth.local.strategy';
 import UserRepository from './repository/user.repository';
 import AuthService from './service/auth.service';
 import User from './domain/user.entity';
-import { TypeOrmExModule } from '../../repository/typeOrmEx.module';
+import { TypeOrmExModule } from '../../repository/typeorm-ex.module';
 import JwtAccessStrategy from './passport/auth.jwt-access.strategy';
 import JwtRefreshStrategy from './passport/auth.jwt-refresh.strategy';
 

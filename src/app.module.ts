@@ -10,7 +10,7 @@ import UploadModule from './api/upload/upload.module';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmExModule } from './repository/typeOrmEx.module';
+import { TypeOrmExModule } from './repository/typeorm-ex.module';
 import ViewModule from './api/view/view.module';
 import AdapterModule from './api/adapter/adapter.module';
 
