@@ -3,15 +3,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 // ** Custom Module Imports
-import AuthModule from './api/auth/auth.module';
-import UploadModule from './api/upload/upload.module';
-import ViewModule from './api/view/view.module';
-import AdapterModule from './api/adapter/adapter.module';
+import AuthModule from './module/auth/auth.module';
+import UploadModule from './module/upload/upload.module';
+import ViewModule from './module/view/view.module';
+import AdapterModule from './module/adapter/adapter.module';
 import LoggerService from './global/util/logger/logger.service';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
+import { CoreModule } from './module/core.module';
 
 @Module({
   imports: [
@@ -32,10 +33,7 @@ import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
       logger: 'file',
     }),
     TypeOrmExModule,
-    AuthModule,
-    UploadModule,
-    ViewModule,
-    AdapterModule,
+    CoreModule,
   ],
   controllers: [],
   providers: [LoggerService],
