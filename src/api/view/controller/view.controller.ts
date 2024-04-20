@@ -5,7 +5,7 @@ import { Controller, Get, Render } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 // ** Response Imports
-import { createServerExceptionResponse } from '../../../response/common';
+import { createServerExceptionResponse } from '../../../global/response/common';
 
 @ApiTags('View')
 @ApiResponse(createServerExceptionResponse())

@@ -2,8 +2,8 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 // ** enum, dto, entity Imports
-import BaseTimeEntity from '../../../common/entity/BaseTime.Entity';
-import { UserRole } from '../../../common/enum/user.role';
+import BaseTimeEntity from '../../../global/common/entity/BaseTime.Entity';
+import { UserRole } from '../../../global/common/enum/user.role';
 
 @Entity({ name: 'TB_USER' })
 @Unique(['username'])

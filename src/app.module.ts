@@ -7,11 +7,11 @@ import AuthModule from './api/auth/auth.module';
 import UploadModule from './api/upload/upload.module';
 import ViewModule from './api/view/view.module';
 import AdapterModule from './api/adapter/adapter.module';
-import LoggerService from './util/logger/logger.service';
+import LoggerService from './global/util/logger/logger.service';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmExModule } from './repository/typeorm-ex.module';
+import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
 
 @Module({
   imports: [

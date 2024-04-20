@@ -8,7 +8,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import AdapterService from '../service/adapter.service';
 
 // ** Response Imports
-import { createServerExceptionResponse } from '../../../response/common';
+import { createServerExceptionResponse } from '../../../global/response/common';
 
 @ApiTags('Adapter')
 @ApiResponse(createServerExceptionResponse())

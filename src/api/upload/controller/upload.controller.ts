@@ -20,10 +20,10 @@ import {
 // ** Other Imports
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import CommonResponse from '../../../common/dto/common.response';
+import CommonResponse from '../../../global/common/dto/common.response';
 
 // ** Response Imports
-import { createServerExceptionResponse } from '../../../response/common';
+import { createServerExceptionResponse } from '../../../global/response/common';
 
 // ** enum, dto, entity Imports
 

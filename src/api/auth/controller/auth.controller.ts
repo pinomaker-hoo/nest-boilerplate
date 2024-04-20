@@ -4,7 +4,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 // ** enum, dto, entity Imports
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
-import CommonResponse from '../../../common/dto/common.response';
+import CommonResponse from '../../../global/common/dto/common.response';
 
 // ** Module Imports
 import AuthService from '../service/auth.service';
@@ -13,8 +13,8 @@ import AuthService from '../service/auth.service';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 // ** Response Imports
-import { createServerExceptionResponse } from '../../../response/common';
-import { AuthResponse } from '../../../response/auth.response';
+import { createServerExceptionResponse } from '../../../global/response/common';
+import { AuthResponse } from '../../../global/response/auth.response';
 
 @ApiTags('Auth')
 @ApiResponse(createServerExceptionResponse())
