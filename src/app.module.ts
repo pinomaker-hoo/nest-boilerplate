@@ -1,6 +1,7 @@
 // ** Nest Imports
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 // ** Custom Module Imports
 import { CoreModule } from './module/core.module';
@@ -28,6 +29,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
         port: +process.env.REDIS_PORT,
       },
     }),
+    EventEmitterModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'mysql',
