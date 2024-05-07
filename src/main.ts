@@ -1,6 +1,6 @@
 // ** Nest Imports
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { join } from 'path';
 
 // ** Custom Module Imports
@@ -79,4 +79,13 @@ async function bootstrap() {
   // ** Server Handler
   await app.listen(process.env.SERVER_PORT);
 }
-bootstrap();
+bootstrap()
+  .then(() => {
+    Logger.log(
+      `NEST SERVER START : ${process.env.NODE_ENV}(${process.env.SERVER_PORT})`,
+    );
+  })
+  .catch((error) => {
+    Logger.error('NEST SERVER START FAILED');
+    Logger.error(error);
+  });
