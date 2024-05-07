@@ -12,25 +12,23 @@ import { Observable, tap } from 'rxjs';
 import type { CommonResponseType } from '../types';
 
 // ** Utils Imports
-import { isEmpty } from 'loadsh';
+import { parse } from 'url';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  private logger = new Logger();
+  private logger = new Logger(LoggingInterceptor.name);
   intercept(
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<any> | Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
-    this.logger.log(`${request.method} : ${request.url}`);
+    const { pathname } = parse(request.url);
 
-    if (!isEmpty(request.body)) {
-      this.logger.log(request.body);
-    }
-
-    if (!isEmpty(request.query)) {
-      this.logger.log(request.query);
-    }
+    this.logger.log(
+      `${request.method} : ${pathname} ${JSON.stringify(
+        request.query,
+      )} ${JSON.stringify(request.body)}`,
+    );
 
     return next.handle().pipe(
       tap({
