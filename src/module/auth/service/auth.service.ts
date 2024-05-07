@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
 import { JwtPayload } from '../../../global/types';
-import { UserRole } from '../../../global/common/enum/user.role';
+import { UserRole } from '../../../global/enum/user.role';
 import { BadRequestException } from '../../../global/exception/customException';
 
 // ** Custom Module Imports
@@ -16,7 +16,7 @@ import UserRepository from '../repository/user.repository';
 
 // Other Imports
 import * as bcrypt from 'bcryptjs';
-import CommonResponse from '../../../global/common/dto/common.response';
+import CommonResponse from '../../../global/dto/common.response';
 
 @Injectable()
 export default class AuthService {

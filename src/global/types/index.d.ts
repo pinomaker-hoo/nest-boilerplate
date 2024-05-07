@@ -1,4 +1,4 @@
-import { UserRole } from '../common/enum/user.role';
+import { UserRole } from '../enum/user.role';
 
 export interface JwtPayload {
   id: number;

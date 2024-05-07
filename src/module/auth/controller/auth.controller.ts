@@ -4,7 +4,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 // ** enum, dto, entity Imports
 import RequestUserSaveDto from '../dto/user.save.dto';
 import RequestUserLoginDto from '../dto/user.login.dto';
-import CommonResponse from '../../../global/common/dto/common.response';
+import CommonResponse from '../../../global/dto/common.response';
 
 // ** Module Imports
 import AuthService from '../service/auth.service';
