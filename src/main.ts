@@ -24,7 +24,13 @@ import { CustomExceptionFilter } from './global/filter/CustomExceptionFilter';
 // ** Interceptor Imports
 import { LoggingInterceptor } from './global/interceptor/LoggingInterceptor';
 
+// ** Typeorm Imports
+import { initializeTransactionalContext } from 'typeorm-transactional';
+
 async function bootstrap() {
+  // ** Typeorm Transactional
+  initializeTransactionalContext();
+
   // ** Server Container
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
