@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 
 // ** Custom Module Imports
 import { CoreModule } from './module/core.module';
@@ -31,6 +32,9 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
         host: process.env.REDIS_HOST,
         port: +process.env.REDIS_PORT,
       },
+    }),
+    CacheModule.register({
+      isGlobal: true,
     }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
@@ -79,6 +83,10 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
   controllers: [],
   providers: [
     LoggerService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
