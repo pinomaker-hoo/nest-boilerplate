@@ -2,16 +2,18 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 // ** Custom Module Imports
 import { CoreModule } from './module/core.module';
 import LoggerService from './global/util/logger/logger.service';
+import { LoggingInterceptor } from './global/interceptor/LoggingInterceptor';
 
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { LoggingInterceptor } from './global/interceptor/LoggingInterceptor';
+import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 // ** Redis Imports
 import { RedisModule } from '@liaoliaots/nestjs-redis';
@@ -63,6 +65,11 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
           ],
         },
       }),
+      async dataSourceFactory(option) {
+        if (!option) throw new Error('Invalid options passed');
+
+        return addTransactionalDataSource(new DataSource(option));
+      },
     }),
     TypeOrmExModule,
     CoreModule,
