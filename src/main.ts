@@ -62,8 +62,8 @@ async function bootstrap() {
   app.enableCors();
   if (process.env.NODE_ENV === 'production') {
     app.use(csurf());
+    app.use(helmet());
   }
-  app.use(helmet());
 
   // ** Static Handler
   app.use('/file', express.static('./uploads'));

@@ -1,5 +1,5 @@
 // ** Nest Imports
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 // ** Custom Module Imports
@@ -9,6 +9,8 @@ import LoggerService from './global/util/logger/logger.service';
 // ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { LoggingInterceptor } from './global/interceptor/LoggingInterceptor';
 
 @Module({
   imports: [
@@ -54,6 +56,16 @@ import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
     CoreModule,
   ],
   controllers: [],
-  providers: [LoggerService],
+  providers: [
+    LoggerService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+  ],
 })
 export class AppModule {}
