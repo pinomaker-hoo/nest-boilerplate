@@ -12,11 +12,21 @@ import { TypeOrmExModule } from './global/repository/typeorm-ex.module';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { LoggingInterceptor } from './global/interceptor/LoggingInterceptor';
 
+// ** Redis Imports
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`.env.${process.env.NODE_ENV}`],
+    }),
+    RedisModule.forRoot({
+      readyLog: true,
+      config: {
+        host: process.env.REDIS_HOST,
+        port: +process.env.REDIS_PORT,
+      },
     }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
