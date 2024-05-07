@@ -2,6 +2,7 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 // ** Custom Module Imports
@@ -31,6 +32,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
         port: +process.env.REDIS_PORT,
       },
     }),
+    ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
