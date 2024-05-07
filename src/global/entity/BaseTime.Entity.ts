@@ -8,11 +8,11 @@ import {
 
 export default abstract class BaseTimeEntity extends BaseEntity {
   @CreateDateColumn()
-  createdAt: Date;
+  createdDate: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  modifiedDate: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedDate: Date;
 }
