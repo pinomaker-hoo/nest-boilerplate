@@ -19,10 +19,6 @@ import helmet from 'helmet';
 // ** Express Imports
 import * as express from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { CustomExceptionFilter } from './global/filter/CustomExceptionFilter';
-
-// ** Interceptor Imports
-import { LoggingInterceptor } from './global/interceptor/LoggingInterceptor';
 
 // ** Typeorm Imports
 import { initializeTransactionalContext } from 'typeorm-transactional';
@@ -49,14 +45,14 @@ async function bootstrap() {
   // ** Logger
   app.useLogger(app.get(LoggerService));
 
-  // ** Interceptor
-  app.useGlobalInterceptors(new LoggingInterceptor());
-
-  // ** Filter
-  app.useGlobalFilters(new CustomExceptionFilter());
-
   // ** Pipeline
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   // ** Security
   app.enableCors();

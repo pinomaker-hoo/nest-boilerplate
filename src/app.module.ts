@@ -91,10 +91,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
     },
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
   ],
 })
 export class AppModule {}
