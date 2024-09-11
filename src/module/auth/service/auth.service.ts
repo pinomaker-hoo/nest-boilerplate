@@ -95,7 +95,7 @@ export default class AuthService {
     }
 
     const token = this.generateToken({
-      id: findUser.id,
+      userId: findUser.userId,
       role: findUser.role,
     });
 
@@ -108,15 +108,16 @@ export default class AuthService {
 
   public async findUserByJwt(payload: JwtPayload): Promise<any> {
     const findUser = await this.userRepository.findOne({
-      where: { id: payload.id },
+      where: { userId: payload.userId },
     });
     if (!findUser) {
       throw new BadRequestException('Not Found User By Token');
     }
     return findUser;
   }
-  public async findRefreshToken({ id }: JwtPayload) {
-    return await this.userRepository.findOne({ where: { id } });
+
+  public async findRefreshToken({ userId }: JwtPayload) {
+    return await this.userRepository.findOne({ where: { userId } });
   }
 
   public generateToken(payload: JwtPayload): {

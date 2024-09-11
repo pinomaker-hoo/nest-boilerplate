@@ -9,7 +9,7 @@ import { UserRole } from '../../../global/enum/user.role';
 @Unique(['username'])
 export default class User extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  userId: number;
 
   @Column({
     type: 'varchar',

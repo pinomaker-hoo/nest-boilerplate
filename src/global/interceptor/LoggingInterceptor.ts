@@ -27,7 +27,7 @@ export class LoggingInterceptor implements NestInterceptor {
     this.logger.log(
       `${request.method} : ${pathname} ${JSON.stringify(
         request.query,
-      )} ${JSON.stringify(request.body)}`,
+      )} ${JSON.stringify(request.body)} ${this.getInfo(request)}`,
     );
 
     return next.handle().pipe(
@@ -39,5 +39,16 @@ export class LoggingInterceptor implements NestInterceptor {
         error: (error: Error) => {},
       }),
     );
+  }
+
+  private getInfo(request) {
+    if (request?.user) {
+      return JSON.stringify({
+        email: request.user?.username,
+        userId: request.user?.userId,
+      });
+    }
+
+    return '';
   }
 }
