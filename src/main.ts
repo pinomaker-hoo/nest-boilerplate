@@ -1,6 +1,11 @@
 // ** Nest Imports
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import {
+  Logger,
+  ShutdownSignal,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { join } from 'path';
 
 // ** Custom Module Imports
@@ -41,6 +46,8 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: '1',
   });
+
+  app.enableShutdownHooks([ShutdownSignal.SIGTERM]);
 
   // ** Logger
   app.useLogger(app.get(LoggerService));
