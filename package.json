@@ -50,6 +50,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.1.2",
     "nestjs-cls": "^4.4.1",
+    "node-optional": "^1.0.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
